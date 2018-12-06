@@ -5,8 +5,6 @@
 
 using namespace std;
 
-inline char invertCase(char c);
-
 int main()
 {
     int counter = 0;;
@@ -29,7 +27,7 @@ int main()
     while (counter < line.length()) {
         char aux = line[counter++];
 
-        if (final_result.empty() || (final_result.top() - invertCase(aux) != 0)) {
+        if (final_result.empty() || ((final_result.top() ^ aux) != 32)) {
             final_result.push(aux);
         }
         else {
@@ -40,15 +38,4 @@ int main()
     cout << "The number of units remaining is " << final_result.size() << endl;
     
     return 0;
-}
-
-inline char invertCase(char c)
-{
-    // lower case char has ascii value >= 97 and <= 122
-    if (c >= 65 && c <= 90) {
-        return c + 32;
-    }
-    else if (c >= 97 && c <= 122) {
-        return c - 32;
-    }
 }
