@@ -136,8 +136,8 @@ void calculate_time_slept(list<raw_data> &database)
     uint32_t curr_id = 0;
     uint8_t min_slept = 0, min_woke_up = 0;
     guard_data *current_guard = nullptr;
-    uint32_t max_slept = 0, id_max_slept = 0;
     map<uint32_t, guard_data*> guards;
+    uint32_t max_slept = 0, min_max_slept = 0, id_max_slept = 0;
 
     auto it = database.begin();
 
@@ -177,31 +177,18 @@ void calculate_time_slept(list<raw_data> &database)
         for (uint8_t i = min_slept; i < min_woke_up; i++)
         {
             current_guard->sum_minutes_slept[i]++;
-        }
 
-        if (current_guard->total_slept > max_slept) {
-            max_slept = current_guard->total_slept;
-            id_max_slept = current_guard->id;
+            if (current_guard->sum_minutes_slept[i] > max_slept)
+            {
+                max_slept = current_guard->sum_minutes_slept[i];
+                min_max_slept = i;
+                id_max_slept = current_guard->id;
+            }
         }
     }
     
-    auto it_guard = guards.find(id_max_slept);
-    if (it_guard != guards.end()) {
-        current_guard = it_guard->second;
-        int max_min_slept = -1, minute = 0;
-
-        for (int i = 0; i < 60; i++)
-        {
-            if (current_guard->sum_minutes_slept[i] > max_min_slept) {                
-                max_min_slept = current_guard->sum_minutes_slept[i];
-                minute = i;
-            }
-        }
-
-        cout << "Guard who slept most was " << id_max_slept << ", for " << max_slept << " minutes." << endl;
-        cout << "Slept most at minute " << minute << "." << endl;
-        cout << "Result: " << id_max_slept*minute << "." << endl;
-    }
+    cout << id_max_slept << " sleept most, at minute " << min_max_slept << " for " << max_slept << endl;
+    cout << "Result: " << id_max_slept*min_max_slept << "." << endl;
 
     // free guards
     for (auto it = guards.begin(); it != guards.end(); ++it)
