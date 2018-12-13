@@ -11,7 +11,7 @@ int main()
     string current;
     
     fstream file;
-    file.open("day1-1.in");
+    file.open("day1.in");
 
     if (!file.is_open())
     {

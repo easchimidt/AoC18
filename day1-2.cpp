@@ -13,7 +13,7 @@ int main()
     vector<long int> occurrences, input;
     bool found_double_occurrence = false;
     fstream file;
-    file.open("day1-1.in");
+    file.open("day1.in");
 
     if (!file.is_open())
     {
